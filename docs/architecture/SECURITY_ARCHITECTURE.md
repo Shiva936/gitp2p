@@ -5,7 +5,7 @@ Technical security design for gitp2p.
 ## Trust Model
 
 - **Local identity is root of trust** — Ed25519 key in `~/.gitp2p/identity` signs checkpoints, sessions, federation records, delegations.
-- **Peers are explicitly approved** — Discovery alone does not grant sync rights; `trust approve` required.
+- **Peers are explicitly approved** — Discovery alone does not grant sync rights; `trust add` required.
 - **Trust zones constrain repos** — Per-repo labels gate export, sync push, and checkpoint actions.
 - **Federation trust is delegated** — Cross-domain access requires valid peering + optional delegation chain.
 - **No implicit global trust** — Remote domains appear in discovery but are not trusted until peering and delegation validate.

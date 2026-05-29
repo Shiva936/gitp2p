@@ -6,9 +6,9 @@ Security expectations and vulnerability reporting for gitp2p.
 
 | Version | Supported | Notes |
 |---------|-----------|-------|
-| 5.0.x | Yes | Current release |
-| 4.5.x | Best effort | Security fixes as feasible |
-| 4.x and earlier | Unmaintained | Upgrade recommended |
+| 7.0.x | Yes | Current release |
+| 5.0.x | Yes | Initial release |
+| < 5.0.x | Unmaintained | Upgrade recommended |
 
 ## Reporting Vulnerabilities
 
@@ -31,7 +31,7 @@ We aim to acknowledge reports within **72 hours** and provide a remediation time
 ## Security Model
 
 - **Local identity is root of trust** — Ed25519 key signs all authoritative records.
-- **Peers require explicit approval** — `trust approve` before sync.
+- **Peers require explicit approval** — `trust add` before sync.
 - **Trust zones** restrict repo actions (export, sync push, checkpoint).
 - **Federation requires peering + valid delegation** — Remote domains are not implicitly trusted.
 - **Verification is operator-triggered** — Use `verify` commands after sync/recovery.

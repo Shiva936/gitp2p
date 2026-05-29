@@ -1,0 +1,22 @@
+[package]
+name = "gitp2p-runtime"
+description = "Autonomous runtime policy, decision engine, agents, and health for gitp2p v6"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+gitp2p-core = { workspace = true }
+gitp2p-sync = { workspace = true }
+gitp2p-federation = { workspace = true }
+
+[[test]]
+name = "policy_lifecycle"
+path = "tests/policy_lifecycle.rs"
+
+[[test]]
+name = "replay_determinism"
+path = "tests/replay_determinism.rs"
+
+[dev-dependencies]
+gitp2p-testing = { workspace = true, features = ["runtime"] }

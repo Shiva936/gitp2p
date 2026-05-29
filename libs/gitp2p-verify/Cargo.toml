@@ -1,0 +1,18 @@
+[package]
+name = "gitp2p-verify"
+description = "Unified verification for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+default = ["federation", "runtime"]
+federation = ["gitp2p-federation"]
+runtime = ["federation", "gitp2p-runtime"]
+
+[dependencies]
+gitp2p-core = { workspace = true }
+gitp2p-content = { workspace = true }
+gitp2p-sync = { workspace = true }
+gitp2p-federation = { workspace = true, optional = true }
+gitp2p-runtime = { workspace = true, optional = true }

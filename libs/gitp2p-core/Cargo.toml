@@ -1,0 +1,12 @@
+[package]
+name = "gitp2p-core"
+description = "Core metadata, identity, trust, and vault for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+base64 = { workspace = true }
+ed25519-dalek = { workspace = true }
+rand_core = { workspace = true }
+sha2 = { workspace = true }

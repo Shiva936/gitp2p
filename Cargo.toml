@@ -1,67 +1,33 @@
 [workspace]
 members = [
-    "crates/gitp2p-metadata",
-    "crates/gitp2p-trust",
-    "crates/gitp2p-vault",
-    "crates/gitp2p-sync",
-    "crates/gitp2p-recovery",
-    "crates/gitp2p-bundle",
-    "crates/gitp2p-lineage",
-    "crates/gitp2p-manifest",
-    "crates/gitp2p-reconciliation",
-    "crates/gitp2p-portable-vault",
-    "crates/gitp2p-media",
-    "crates/gitp2p-routing",
-    "crates/gitp2p-relay",
-    "crates/gitp2p-mesh",
-    "crates/gitp2p-topology",
-    "crates/gitp2p-identity",
-    "crates/gitp2p-cas",
-    "crates/gitp2p-dedup",
-    "crates/gitp2p-delta",
-    "crates/gitp2p-merkle",
-    "crates/gitp2p-verify",
-    "crates/gitp2p-federation",
-    "crates/gitp2p-gateway",
-    "crates/gitp2p-peering",
-    "crates/gitp2p-global-discovery",
-    "crates/gitp2p-mobility",
-    "crates/gitp2p-cli",
+    "cli",
+    "libs/gitp2p-core",
+    "libs/gitp2p-content",
+    "libs/gitp2p-sync",
+    "libs/gitp2p-federation",
+    "libs/gitp2p-runtime",
+    "libs/gitp2p-enterprise",
+    "libs/gitp2p-verify",
+    "libs/gitp2p-testing",
+    "tests/integrations",
+    "tests/benchmarks",
 ]
 resolver = "2"
 
 [workspace.package]
-version = "5.0.0"
+version = "7.0.0"
 edition = "2021"
 license = "MIT"
 
 [workspace.dependencies]
-gitp2p-metadata = { path = "crates/gitp2p-metadata" }
-gitp2p-trust = { path = "crates/gitp2p-trust" }
-gitp2p-vault = { path = "crates/gitp2p-vault" }
-gitp2p-sync = { path = "crates/gitp2p-sync" }
-gitp2p-recovery = { path = "crates/gitp2p-recovery" }
-gitp2p-bundle = { path = "crates/gitp2p-bundle" }
-gitp2p-lineage = { path = "crates/gitp2p-lineage" }
-gitp2p-manifest = { path = "crates/gitp2p-manifest" }
-gitp2p-reconciliation = { path = "crates/gitp2p-reconciliation" }
-gitp2p-portable-vault = { path = "crates/gitp2p-portable-vault" }
-gitp2p-media = { path = "crates/gitp2p-media" }
-gitp2p-routing = { path = "crates/gitp2p-routing" }
-gitp2p-relay = { path = "crates/gitp2p-relay" }
-gitp2p-mesh = { path = "crates/gitp2p-mesh" }
-gitp2p-topology = { path = "crates/gitp2p-topology" }
-gitp2p-identity = { path = "crates/gitp2p-identity" }
-gitp2p-cas = { path = "crates/gitp2p-cas" }
-gitp2p-dedup = { path = "crates/gitp2p-dedup" }
-gitp2p-delta = { path = "crates/gitp2p-delta" }
-gitp2p-merkle = { path = "crates/gitp2p-merkle" }
-gitp2p-verify = { path = "crates/gitp2p-verify" }
-gitp2p-federation = { path = "crates/gitp2p-federation" }
-gitp2p-gateway = { path = "crates/gitp2p-gateway" }
-gitp2p-peering = { path = "crates/gitp2p-peering" }
-gitp2p-global-discovery = { path = "crates/gitp2p-global-discovery" }
-gitp2p-mobility = { path = "crates/gitp2p-mobility" }
+gitp2p-core = { path = "libs/gitp2p-core" }
+gitp2p-content = { path = "libs/gitp2p-content" }
+gitp2p-sync = { path = "libs/gitp2p-sync" }
+gitp2p-federation = { path = "libs/gitp2p-federation" }
+gitp2p-runtime = { path = "libs/gitp2p-runtime" }
+gitp2p-enterprise = { path = "libs/gitp2p-enterprise" }
+gitp2p-verify = { path = "libs/gitp2p-verify" }
+gitp2p-testing = { path = "libs/gitp2p-testing" }
 clap = { version = "4", features = ["derive"] }
 ed25519-dalek = { version = "2", features = ["rand_core"] }
 rand_core = { version = "0.6", features = ["getrandom"] }
@@ -72,3 +38,4 @@ tokio = { version = "1", features = ["rt-multi-thread", "macros", "fs", "io-util
 quinn = "0.11"
 rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
 rcgen = "0.13"
+criterion = { version = "0.5", features = ["html_reports"] }

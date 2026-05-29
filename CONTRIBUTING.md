@@ -6,6 +6,8 @@ Thank you for your interest in contributing. This document explains how to parti
 
 - **Small, focused changes** are easier to review and merge.
 - **Tests are required** for behavior changes; run `cargo test` before submitting.
+- Cross-cutting failure tests live in `tests/integrations/`; run `cargo test -p integrations`.
+- Benchmarks are optional in CI; run `cargo bench -p benchmarks` locally.
 - **Match existing patterns** — extend crates rather than duplicating logic.
 - **Document user-visible changes** in `docs/` alongside code.
 - **Security issues** are reported privately — see [SECURITY.md](docs/SECURITY.md).
@@ -22,7 +24,7 @@ Thank you for your interest in contributing. This document explains how to parti
 ```bash
 git clone <repository-url> gitp2p
 cd gitp2p
-cargo build -p gitp2p-cli
+cargo build -p cli
 cargo test
 ```
 
@@ -74,7 +76,7 @@ verify commands can detect revoked peerings deterministically.
 ## Testing Requirements
 
 - Unit tests in crate `src/` or `tests/` directories.
-- Integration tests for multi-step workflows (see `crates/gitp2p-cli/tests/`).
+- Integration tests for multi-step workflows (see `cli/tests/`).
 - Use temp directories and isolated `GITP2P_HOME` for federation tests.
 - All tests must pass: `cargo test`
 

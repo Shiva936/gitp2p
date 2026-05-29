@@ -1,0 +1,32 @@
+[package]
+name = "gitp2p-federation"
+description = "Federation domains, gateways, peering, discovery, mobility, and mesh for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+gitp2p-core = { workspace = true }
+gitp2p-content = { workspace = true }
+gitp2p-sync = { workspace = true }
+sha2 = { workspace = true }
+
+[[test]]
+name = "domain_lifecycle"
+path = "tests/domain_lifecycle.rs"
+
+[[test]]
+name = "mesh_workflow"
+path = "tests/mesh_workflow.rs"
+
+[[test]]
+name = "survivability"
+path = "tests/survivability.rs"
+
+[[test]]
+name = "discovery"
+path = "tests/discovery.rs"
+
+[[test]]
+name = "migration"
+path = "tests/migration.rs"

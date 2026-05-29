@@ -26,7 +26,7 @@ Yes. Use Linux paths for repos and set `GITP2P_PEER_HOMES` to cross-mount peer h
 
 ### Why does `cargo build` take long?
 
-The workspace has 27 crates including QUIC/TLS dependencies. Build only the CLI: `cargo build -p gitp2p-cli`.
+The workspace has **8 packages** (7 libraries in `libs/` + `cli` at repo root). Build the full CLI: `cargo build -p cli`. Build a minimal v1–v4 subset: `cargo build -p cli --no-default-features`.
 
 ### Can I install without building from source?
 
@@ -40,7 +40,7 @@ There is no official prebuilt release pipeline documented yet. Build from source
 
 ### Do I need to trust a peer before syncing?
 
-Yes. Discover with `peers discover`, then `trust approve <peer-id>`.
+Yes. Discover with `peers discover`, then `trust add <peer-id>`.
 
 ### What are trust zones?
 
@@ -112,7 +112,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 ### Error: peer is not known
 
-Run `gitp2p peers discover` (with `--lan` or `GITP2P_PEER_HOMES`), then `trust approve`.
+Run `gitp2p peers discover` (with `--lan` or `GITP2P_PEER_HOMES`), then `trust add`.
 
 ### Error: relay is disabled
 

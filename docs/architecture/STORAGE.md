@@ -18,6 +18,8 @@ gitp2p uses the local filesystem exclusively. There is no embedded database.
 | Federation | `~/.gitp2p/federation/` | KV domains, gateway dirs, peering, delegations |
 | Discovery | `~/.gitp2p/discovery/` | KV cache per kind |
 | Sync paths | `~/.gitp2p/sync/paths/` | KV global sync audit |
+| Runtime | `~/.gitp2p/runtime/` | Policies, decisions, plans, health, automation (v6) |
+| Enterprise | `~/.gitp2p/enterprise/` | Orgs, teams, roles, governance, audit (v7) |
 | TLS | `~/.gitp2p/tls/` | Generated certs for QUIC |
 
 Override root with `GITP2P_HOME`.
@@ -58,7 +60,24 @@ Override root with `GITP2P_HOME`.
 ├── peers/<peer-id>
 ├── sessions/<session-id>
 ├── trust-graph/
-└── trust-requests/
+├── trust-requests/
+├── runtime/
+│   ├── policies/<policy-id>
+│   ├── decisions/<decision-id>
+│   ├── plans/<plan-id>
+│   ├── health/<report-id>
+│   ├── explanations/<explanation-id>
+│   ├── automation/state
+│   └── agents/
+└── enterprise/
+    ├── organizations/<org-id>
+    ├── teams/<team-id>
+    ├── roles/<assignment-id>
+    ├── governance/<proposal-id>
+    ├── audit/<event-id>
+    ├── compliance/<report-id>
+    ├── administration/<delegation-id>
+    └── org-trust/<trust-id>
 ```
 
 Each vault mirror is a bare Git repository managed by gitp2p; working trees remain at the user's registered path.

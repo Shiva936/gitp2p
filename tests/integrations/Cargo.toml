@@ -1,0 +1,15 @@
+[package]
+name = "integrations"
+description = "Cross-cutting integration and failure tests for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dev-dependencies]
+gitp2p-testing = { workspace = true, features = ["federation", "runtime"] }
+gitp2p-core = { workspace = true }
+gitp2p-content = { workspace = true }
+gitp2p-sync = { workspace = true }
+gitp2p-federation = { workspace = true }
+gitp2p-runtime = { workspace = true }

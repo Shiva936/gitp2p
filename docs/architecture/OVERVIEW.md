@@ -1,12 +1,12 @@
 # Architecture Overview
 
-Architecture entry point for gitp2p v5.0.0.
+Architecture entry point for gitp2p **v7.0.0**.
 
 ## System Overview
 
-gitp2p is a local-first CLI that wraps Git repositories in **vaults**, creates **signed checkpoints** for recovery, synchronizes with **trusted peers**, and (in v5) connects **federation domains** through **gateways** without requiring centralized infrastructure.
+gitp2p is a local-first CLI that wraps Git repositories in **vaults**, creates **signed checkpoints** for recovery, synchronizes with **trusted peers**, connects **federation domains** through **gateways**, runs an **autonomous runtime** (v6), and supports **enterprise org/governance** (v7)—without requiring centralized infrastructure.
 
-The workspace ships as 27 Rust crates orchestrated by `gitp2p-cli`. All runtime state lives under `GITP2P_HOME` (default `~/.gitp2p/`).
+The workspace ships as **8 Rust packages** (7 libraries under `libs/` + `cli/` at repo root). All runtime state lives under `GITP2P_HOME` (default `~/.gitp2p/`).
 
 ### Version evolution
 
@@ -40,7 +40,7 @@ The workspace ships as 27 Rust crates orchestrated by `gitp2p-cli`. All runtime 
 ```mermaid
 flowchart TB
   subgraph cli [CLI Layer]
-    gitp2p_cli[gitp2p-cli]
+    cli_pkg[cli]
   end
 
   subgraph core [Core]
@@ -73,10 +73,10 @@ flowchart TB
     bundle[gitp2p-bundle]
   end
 
-  gitp2p_cli --> vault
-  gitp2p_cli --> sync
-  gitp2p_cli --> federation
-  gitp2p_cli --> verify
+  cli_pkg --> vault
+  cli_pkg --> sync
+  cli_pkg --> federation
+  cli_pkg --> verify
   vault --> trust
   vault --> metadata
   sync --> mesh
@@ -105,7 +105,7 @@ Flow: **Discovery → Route selection → Gateway traversal → Sync → Verific
 
 | Document | Topic |
 |----------|-------|
-| [SYSTEM_COMPONENTS.md](SYSTEM_COMPONENTS.md) | 27-crate catalog and dependencies |
+| [SYSTEM_COMPONENTS.md](SYSTEM_COMPONENTS.md) | 8-package catalog and dependencies |
 | [DATA_FLOW.md](DATA_FLOW.md) | Checkpoint, sync, and global sync pipelines |
 | [EXECUTION_MODEL.md](EXECUTION_MODEL.md) | CLI dispatch, concurrency, session lifecycle |
 | [STORAGE.md](STORAGE.md) | `~/.gitp2p/` layout and consistency |

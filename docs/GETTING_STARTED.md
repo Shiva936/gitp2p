@@ -18,10 +18,10 @@ Clone the repository and build the CLI:
 ```bash
 git clone <repository-url> gitp2p
 cd gitp2p
-cargo build -p gitp2p-cli
+cargo build -p cli
 ```
 
-The binary is at `target/debug/gitp2p`. Add it to your `PATH` or use `cargo run -p gitp2p-cli --`.
+The binary is at `target/debug/gitp2p`. Add it to your `PATH` or use `cargo run -p cli --`.
 
 Verify the build:
 
@@ -105,7 +105,7 @@ Filesystem transport for shared mounts, NAS, or WSL:
 ```bash
 GITP2P_PEER_HOMES=/path/to/peer-b/.gitp2p gitp2p peers discover
 gitp2p peers discover --lan --timeout 5
-gitp2p trust approve <peer-id>
+gitp2p trust add <peer-id>
 gitp2p sync my-repo --peer <peer-id>
 gitp2p peers listen   # mDNS + QUIC receiver
 ```
@@ -159,12 +159,12 @@ gitp2p verify domain <domain-id>
 
 | Issue | Solution |
 |-------|----------|
-| `peer '...' is not known` | Run `peers discover`, then `trust approve` |
+| `peer '...' is not known` | Run `peers discover`, then `trust add` |
 | `relay is disabled` | Run `gitp2p relay enable` before global sync |
 | `no local gateway found` | Create gateway before peering: `gateway create` |
 | Permission denied on `GITP2P_HOME` | Fix directory permissions or choose writable path |
 | WSL path not found | Use `/mnt/c/...` paths or set `GITP2P_PEER_HOMES` explicitly |
-| Build fails on QUIC | Ensure OpenSSL/ring deps; try `cargo build -p gitp2p-cli` only |
+| Build fails on QUIC | Ensure OpenSSL/ring deps; try `cargo build -p cli` only |
 
 ## Next Steps
 

@@ -12,7 +12,19 @@ Record of major design choices for gitp2p.
 
 **Tradeoffs:** More boilerplate, clearer boundaries, independent testing, avoids circular deps.
 
-**Status:** Accepted (v1–v5).
+**Status:** Superseded by ADR-008 (v7 libs consolidation).
+
+---
+
+### ADR-008: 8-package `libs/` workspace (v7)
+
+**Decision:** Consolidate 45 workspace members into 7 libraries under `libs/` plus `cli/` at repo root. Optional v5–v7 layers compile via Cargo features on the CLI (`federation`, `runtime`, `enterprise`).
+
+**Alternatives:** Keep 45-crate layout; single monolith crate.
+
+**Tradeoffs:** Fewer workspace members and clearer layer boundaries; larger modules within each library; routing/relay/topology moved into `gitp2p-federation` to avoid sync↔federation cycles.
+
+**Status:** Accepted (v7.0.0).
 
 ---
 
@@ -105,6 +117,9 @@ Record of major design choices for gitp2p.
 - v4 added mesh routing and relay.
 - v4.5 formalized identity/content verification (CAS, Merkle).
 - v5 answered **WHERE** with domains, gateways, peering, global sync/recovery.
+- v6 added autonomous runtime (policies, agents, health).
+- v7 added enterprise org/governance/audit/compliance.
+- v7(ADR-008) consolidated crates into 8 packages under `libs/`.
 
 ## Future Reassessment Criteria
 

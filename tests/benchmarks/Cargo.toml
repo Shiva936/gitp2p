@@ -1,0 +1,30 @@
+[package]
+name = "benchmarks"
+description = "Performance benchmarks for gitp2p subsystems"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dev-dependencies]
+criterion = { workspace = true }
+gitp2p-core = { workspace = true }
+gitp2p-content = { workspace = true }
+gitp2p-runtime = { workspace = true }
+gitp2p-testing = { workspace = true, features = ["runtime"] }
+
+[[bench]]
+name = "checkpoint"
+harness = false
+
+[[bench]]
+name = "cas_store"
+harness = false
+
+[[bench]]
+name = "merkle_root"
+harness = false
+
+[[bench]]
+name = "policy_eval"
+harness = false

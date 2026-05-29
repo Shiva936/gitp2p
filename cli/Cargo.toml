@@ -1,0 +1,62 @@
+[package]
+name = "cli"
+description = "CLI for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "gitp2p"
+path = "src/main.rs"
+
+[features]
+default = ["federation", "runtime", "enterprise"]
+federation = ["gitp2p-federation", "gitp2p-verify/federation"]
+runtime = ["federation", "gitp2p-runtime", "gitp2p-verify/runtime"]
+enterprise = ["runtime", "gitp2p-enterprise"]
+
+[dependencies]
+gitp2p-core = { workspace = true }
+gitp2p-content = { workspace = true }
+gitp2p-sync = { workspace = true }
+gitp2p-verify = { workspace = true }
+gitp2p-federation = { workspace = true, optional = true }
+gitp2p-runtime = { workspace = true, optional = true }
+gitp2p-enterprise = { workspace = true, optional = true }
+clap = { workspace = true }
+
+[dev-dependencies]
+gitp2p-core = { workspace = true }
+gitp2p-testing = { workspace = true, features = ["runtime"] }
+
+[[test]]
+name = "readme_workflow"
+path = "tests/readme_workflow.rs"
+
+[[test]]
+name = "lan_workflow"
+path = "tests/lan_workflow.rs"
+
+[[test]]
+name = "bundle_workflow"
+path = "tests/bundle_workflow.rs"
+
+[[test]]
+name = "global_sync"
+path = "tests/global_sync.rs"
+required-features = ["federation"]
+
+[[test]]
+name = "global_recovery"
+path = "tests/global_recovery.rs"
+required-features = ["federation"]
+
+[[test]]
+name = "autonomous_workflow"
+path = "tests/autonomous_workflow.rs"
+required-features = ["runtime"]
+
+[[test]]
+name = "enterprise_workflow"
+path = "tests/enterprise_workflow.rs"
+required-features = ["enterprise"]

@@ -1,122 +1,82 @@
 # System Components
 
-Component inventory for the gitp2p v5.0.0 workspace (27 crates).
+Component inventory for the gitp2p **v7.0.0** workspace (**8 packages**: 7 libraries in `libs/` + `cli` at repo root).
 
-## Component Catalog
+## Package Catalog
 
-### CLI and metadata foundation
+| Package | Path | Responsibility |
+|---------|------|----------------|
+| `cli` | `cli/` | User-facing CLI (`clap`); feature-gated dispatch to libraries |
+| `gitp2p-core` | `libs/gitp2p-core/` | Metadata models/KV, identity IDs, trust/signing, vault lifecycle |
+| `gitp2p-content` | `libs/gitp2p-content/` | Bundles, portable vaults, lineage, manifests, CAS/dedup/delta/merkle |
+| `gitp2p-sync` | `libs/gitp2p-sync/` | Peer replication, filesystem/LAN/QUIC sync, local/peer recovery |
+| `gitp2p-federation` | `libs/gitp2p-federation/` | Domains, gateways, peering, discovery, mobility, mesh, routing, relay, topology, global recovery |
+| `gitp2p-runtime` | `libs/gitp2p-runtime/` | v6 autonomous runtime: policies, decision engine, agents, health, explainability |
+| `gitp2p-enterprise` | `libs/gitp2p-enterprise/` | v7 org/team/role, governance, audit, compliance, admin, org trust, visibility |
+| `gitp2p-verify` | `libs/gitp2p-verify/` | Unified verification pipeline (feature-gated for federation/runtime records) |
 
-| Crate | Responsibility |
-|-------|----------------|
-| `gitp2p-cli` | User-facing CLI (`clap`); dispatches to subsystem crates via `main.rs` and `extended.rs` |
-| `gitp2p-metadata` | Shared models, KV I/O, Git helpers, error types, utilities |
+## Module map (merged from prior crates)
 
-### Identity and trust
+### `gitp2p-core`
 
-| Crate | Responsibility |
-|-------|----------------|
-| `gitp2p-trust` | Ed25519 identity, signing, trust zones, policies, trust graph, **delegation chains** |
-| `gitp2p-identity` | Formal ID helpers: PeerID, VaultID, CheckpointID, DomainID, GatewayID, etc. |
+- `metadata/` — models, KV I/O, Git helpers, errors
+- `identity/` — PeerID, VaultID, CheckpointID, DomainID, etc.
+- `trust/` — Ed25519 identity, zones, policies, delegation, trust graph
+- `vault/` — `App`, vault/repo/checkpoint lifecycle, retention
 
-### Vault and content
+### `gitp2p-content`
 
-| Crate | Responsibility |
-|-------|----------------|
-| `gitp2p-vault` | Vault/repo/checkpoint lifecycle, retention, `App` home directory API |
-| `gitp2p-cas` | Content-addressable chunk storage |
-| `gitp2p-dedup` | Chunk deduplication statistics |
-| `gitp2p-delta` | Delta chunk propagation |
-| `gitp2p-merkle` | Merkle root computation and verification |
+- `bundle/`, `portable/`, `media/`, `lineage/`, `manifest/`, `reconciliation/`
+- `content/cas`, `content/dedup`, `content/delta`, `content/merkle`
 
-### Sync, mesh, and routing
+### `gitp2p-sync`
 
-| Crate | Responsibility |
-|-------|----------------|
-| `gitp2p-sync` | Peer replication, filesystem/LAN discovery, QUIC server, session management |
-| `gitp2p-routing` | Local and **global routes**, route verify, failover |
-| `gitp2p-relay` | Relay forwarding cache and propagation |
-| `gitp2p-mesh` | Multi-hop and **global sync**, sync path inspection |
-| `gitp2p-topology` | Topology summaries (peers, trust, routes, vaults) |
+- `sync/` — replication, discovery, QUIC transport, sessions
+- `recovery/` — doctor, local, peer, multi recovery
 
-### Portable federation (v3)
+### `gitp2p-federation`
 
-| Crate | Responsibility |
-|-------|----------------|
-| `gitp2p-bundle` | Bundle export/import, structured bundles, encryption |
-| `gitp2p-lineage` | Checkpoint lineage chains and hashing |
-| `gitp2p-manifest` | Federation manifest read/verify |
-| `gitp2p-reconciliation` | Delayed merge validation |
-| `gitp2p-portable-vault` | Vault package export/import |
-| `gitp2p-media` | Removable media export/import helpers |
+- `domain/`, `gateway/`, `peering/`, `discovery/`, `mobility/`, `mesh/`
+- `routing/`, `relay/`, `topology/`, `global_recovery`
 
-### Recovery and verification
+### `gitp2p-runtime`
 
-| Crate | Responsibility |
-|-------|----------------|
-| `gitp2p-recovery` | Doctor, local/peer/multi/**global** recovery |
-| `gitp2p-verify` | Unified verify pipeline for peers, checkpoints, domains, gateways, routes |
+- `policy/`, `decision/`, `agents/` (sync, replica, recovery, trust), `health/`, `explain/`, `automation`
 
-### Global federation (v5)
+### `gitp2p-enterprise`
 
-| Crate | Responsibility |
-|-------|----------------|
-| `gitp2p-federation` | Domain create/inspect/policy/delete, federation layout |
-| `gitp2p-gateway` | Gateway lifecycle, route/discovery exchange, sync forwarder |
-| `gitp2p-peering` | Domain peering connect/revoke/inspect |
-| `gitp2p-global-discovery` | Discover domains, gateways, vaults, replicas |
-| `gitp2p-mobility` | Domain migration with ID continuity |
+- `org/`, `team/`, `role/`, `governance/`, `audit/`, `compliance/`, `admin/`, `org_trust/`, `visibility/`
 
-## Responsibilities
+## Cargo features (CLI)
 
-- **CLI** parses commands and never embeds business logic beyond dispatch.
-- **metadata** owns all serializable structs and the KV format.
-- **vault** owns on-disk vault layout and checkpoint creation.
-- **sync/mesh** own transport and multi-hop traversal.
-- **federation stack** owns cross-domain metadata; v5 uses filesystem KV simulation for gateway exchange.
-- **verify** centralizes cryptographic validation entry points.
+| Feature | Enables |
+|---------|---------|
+| *(default)* | `federation` + `runtime` + `enterprise` (full v7) |
+| `federation` | v5 domain/gateway/peering/discover/global sync |
+| `runtime` | v6 policy, automation, health, explain, replica, recovery, replay |
+| `enterprise` | v7 org/governance/audit/compliance |
 
-## Ownership Boundaries
+Build minimal v1–v4: `cargo build -p cli --no-default-features`
 
-| Concern | Owner crate | Not owned by |
-|---------|-------------|--------------|
-| Git mirror files | `gitp2p-vault` | `gitp2p-sync` (reads/writes via vault paths) |
-| Peer trust state | `gitp2p-trust` | CLI (only invokes) |
-| Federation domains | `gitp2p-federation` | `gitp2p-peering` (references domain IDs) |
-| Global routes | `gitp2p-routing` | `gitp2p-gateway` (exchange only) |
-| Session signatures | `gitp2p-trust` | `gitp2p-sync` (calls signing) |
+## Dependency graph
 
-## Dependencies
-
-Dependency tiers (higher depends on lower):
-
-```text
-Tier 0: gitp2p-metadata
-Tier 1: gitp2p-trust, gitp2p-identity
-Tier 2: gitp2p-vault, gitp2p-cas, gitp2p-manifest, gitp2p-lineage, ...
-Tier 3: gitp2p-sync, gitp2p-routing, gitp2p-federation
-Tier 4: gitp2p-gateway, gitp2p-peering, gitp2p-mesh, gitp2p-recovery
-Tier 5: gitp2p-global-discovery, gitp2p-mobility, gitp2p-verify
-Tier 6: gitp2p-cli
+```
+cli → verify, enterprise?, runtime?, federation?, sync, content, core
+gitp2p-verify → federation?, runtime?, sync, content, core
+gitp2p-enterprise → runtime, core
+gitp2p-runtime → federation, sync, core
+gitp2p-federation → sync, content, core
+gitp2p-sync → content, core
+gitp2p-content → core
 ```
 
-Avoid circular crate dependencies (e.g. `gitp2p-trust` must not depend on `gitp2p-vault`).
+## Ownership boundaries
 
-## Interactions
-
-```mermaid
-flowchart LR
-  CLI[gitp2p-cli] --> Vault[gitp2p-vault]
-  CLI --> Sync[gitp2p-sync]
-  CLI --> Fed[gitp2p-federation]
-  Vault --> Trust[gitp2p-trust]
-  Sync --> Mesh[gitp2p-mesh]
-  Mesh --> Routing[gitp2p-routing]
-  Fed --> Gateway[gitp2p-gateway]
-  Gateway --> Relay[gitp2p-relay]
-  CLI --> Verify[gitp2p-verify]
-  Verify --> Trust
-```
-
----
-
-**Related documents:** [OVERVIEW.md](OVERVIEW.md) · [DATA_FLOW.md](DATA_FLOW.md) · [EXTENSIBILITY.md](EXTENSIBILITY.md)
+| Concern | Owner | Not owned by |
+|---------|-------|------------|
+| KV models | `gitp2p-core::metadata` | CLI |
+| On-disk vault layout | `gitp2p-core::vault` | sync |
+| Transport sessions | `gitp2p-sync::sync` | federation |
+| Cross-domain records | `gitp2p-federation` | core |
+| Autonomous ticks | `gitp2p-runtime` | CLI |
+| Org/governance KV | `gitp2p-enterprise` | federation |

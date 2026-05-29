@@ -6,7 +6,7 @@ Local-first CLI for protected Git vaults, signed recovery checkpoints, trusted p
 
 gitp2p wraps your Git repositories in **vaults**, creates **cryptographically signed checkpoints** for sovereign recovery, and syncs with **trusted peers** over filesystem, LAN, or QUIC—without requiring GitHub or any centralized host.
 
-Version **5.0.0** adds **Global Sovereign Federation**: independent domains connected via gateways, with peering, trust delegation, global discovery, and cross-domain sync/recovery.
+Version **7.0.0** adds **enterprise infrastructure** (organizations, governance, audit, compliance) on top of the **v6 autonomous runtime** and **v5 global federation**.
 
 ## Problem Statement
 
@@ -33,14 +33,14 @@ gitp2p addresses these gaps in a single CLI tool.
 
 ## Architecture Summary
 
-gitp2p is a 27-crate Rust workspace. The CLI dispatches to subsystem crates; all state lives under `GITP2P_HOME`. federation uses signed KV metadata with gateway-mediated cross-domain discovery—no embedded database, no mandatory cloud.
+gitp2p is an **8-package** Rust workspace (7 libraries under `libs/` plus `cli/` at the repo root). The CLI dispatches to library crates; optional v5–v7 layers compile via Cargo features (`federation`, `runtime`, `enterprise`). All state lives under `GITP2P_HOME`. Federation uses signed KV metadata with gateway-mediated cross-domain discovery—no embedded database, no mandatory cloud.
 
 Full architecture: [docs/architecture/OVERVIEW.md](docs/architecture/OVERVIEW.md)
 
 ## Quick Start
 
 ```bash
-cargo build -p gitp2p-cli
+cargo build -p cli
 
 gitp2p vault create myteam
 gitp2p repo add myteam .
@@ -55,7 +55,7 @@ Build from source (requires Rust stable and Git):
 ```bash
 git clone <repository-url> gitp2p
 cd gitp2p
-cargo build -p gitp2p-cli
+cargo build -p cli
 # binary: target/debug/gitp2p
 ```
 
@@ -66,7 +66,7 @@ See [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) for prerequisites, config
 | Goal | Starting point |
 |------|----------------|
 | First vault and checkpoint | [Getting Started](docs/GETTING_STARTED.md#first-run) |
-| Trusted peer sync | `peers discover` → `trust approve` → `sync --peer` |
+| Trusted peer sync | `peers discover` → `trust add` → `sync --peer` |
 | Offline bundle | `bundle create` → `recover --offline` |
 | Mesh / relay | `relay enable` → `route inspect` → `sync` |
 | Global federation (v5) | `domain create` → `gateway create` → `sync --domain` |

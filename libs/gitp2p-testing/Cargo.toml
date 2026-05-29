@@ -1,0 +1,21 @@
+[package]
+name = "gitp2p-testing"
+description = "Shared test harness for gitp2p integration and workflow tests"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[features]
+default = []
+federation = ["gitp2p-federation"]
+runtime = ["gitp2p-runtime"]
+enterprise = ["gitp2p-enterprise"]
+
+[dependencies]
+gitp2p-core = { workspace = true }
+gitp2p-content = { workspace = true }
+gitp2p-sync = { workspace = true }
+gitp2p-federation = { workspace = true, optional = true }
+gitp2p-runtime = { workspace = true, optional = true }
+gitp2p-enterprise = { workspace = true, optional = true }

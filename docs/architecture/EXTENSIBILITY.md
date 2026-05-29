@@ -16,14 +16,14 @@ Primary extension surfaces:
 | KV helpers | `gitp2p-metadata` | New record types |
 | Metadata models | `gitp2p-metadata/src/models.rs` | New structs |
 | ID helpers | `gitp2p-identity` | New ID derivations |
-| CLI handlers | `gitp2p-cli/src/extended.rs` | New commands |
+| CLI handlers | `cli/src/extended.rs` | New commands |
 | Verify pipeline | `gitp2p-verify` | New verify entry points |
 
 ## Extension Points
 
 ### New workspace crate
 
-1. Add crate under `crates/`.
+1. Add a module under the appropriate library in `libs/` (e.g. `libs/gitp2p-federation/src/`).
 2. Register in root [Cargo.toml](Cargo.toml) `members` and `[workspace.dependencies]`.
 3. Depend on `gitp2p-metadata` (+ `gitp2p-trust` / `gitp2p-vault` as needed).
 4. Avoid circular dependencies (trust must not depend on vault).
@@ -32,7 +32,7 @@ Primary extension surfaces:
 
 1. Add `Subcommand` enum variant in `main.rs`.
 2. Implement handler in `extended.rs` or inline in `main.rs`.
-3. Wire crate dependency in `gitp2p-cli/Cargo.toml`.
+3. Wire crate dependency in `cli/Cargo.toml`.
 
 ### New federation record type
 
@@ -47,7 +47,7 @@ Extend `gitp2p-sync` discovery/replication modules; respect `GITP2P_TRANSPORT`.
 
 ## Integration Patterns
 
-- **Filesystem simulation** — Separate `GITP2P_HOME` directories for multi-node tests (see `crates/gitp2p-cli/tests/v2_lan_workflow.rs`).
+- **Filesystem simulation** — Separate `GITP2P_HOME` directories for multi-node tests (see `cli/tests/lan_workflow.rs`).
 - **Offline integration** — Bundles and vault packages for CI without network.
 - **KV exchange** — Gateway manifest pattern for cross-domain metadata before wire protocol.
 

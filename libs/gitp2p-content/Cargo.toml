@@ -1,0 +1,14 @@
+[package]
+name = "gitp2p-content"
+description = "Offline bundles, manifests, and content-addressed storage for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+gitp2p-core = { workspace = true }
+sha2 = { workspace = true }
+
+[[test]]
+name = "cas_workflow"
+path = "tests/cas_workflow.rs"

@@ -28,11 +28,11 @@ There is no server package, container image, or cloud control plane in-tree.
 Built from source:
 
 ```bash
-cargo build -p gitp2p-cli
+cargo build -p cli
 # binary: target/debug/gitp2p
 ```
 
-Workspace version: **5.0.0** (27 crates, resolver v2).
+Workspace version: **7.0.0** (8 packages, resolver v2).
 
 ## Environment Layouts
 
@@ -59,7 +59,7 @@ Peering and gateway exchange connect domains via KV manifests (filesystem simula
 ## Upgrade Strategy
 
 1. Pull latest source.
-2. `cargo build -p gitp2p-cli`
+2. `cargo build -p cli`
 3. Existing `GITP2P_HOME` is forward-compatible; new v5 dirs created on first federation command.
 4. Run `cargo test` before production use on critical vaults.
 5. Bump workspace version in root `Cargo.toml` for releases.

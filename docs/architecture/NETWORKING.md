@@ -45,7 +45,7 @@ Default transport is filesystem/auto. QUIC requires TLS material under `~/.gitp2
 1. Scan `GITP2P_PEER_HOMES` or LAN mDNS.
 2. Validate peer identity (public key → peer ID).
 3. Write peer record to `~/.gitp2p/peers/`.
-4. Operator approves trust: `gitp2p trust approve <peer-id>`.
+4. Operator adds trust: `gitp2p trust add <peer-id>`.
 
 ### Sync session
 

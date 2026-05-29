@@ -33,7 +33,7 @@ Checkpoints capture commit hash, parent chain, lineage, and Ed25519 signature.
 ### 3. Local peer sync
 
 ```text
-discover peer → trust approve → sync_to_peer → replication record
+discover peer → trust add → sync_to_peer → replication record
 ```
 
 Mirror updated under `vaults/<id>/repositories/<repo-id>/`.
