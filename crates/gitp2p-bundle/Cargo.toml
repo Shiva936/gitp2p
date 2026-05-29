@@ -1,0 +1,17 @@
+[package]
+name = "gitp2p-bundle"
+description = "Offline bundle export and import for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+gitp2p-metadata = { workspace = true }
+gitp2p-trust = { workspace = true }
+gitp2p-vault = { workspace = true }
+gitp2p-lineage = { workspace = true }
+gitp2p-manifest = { workspace = true }
+sha2 = { workspace = true }

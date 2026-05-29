@@ -1,0 +1,9 @@
+[package]
+name = "gitp2p-metadata"
+description = "Shared metadata, models, and Git helpers for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+base64 = { workspace = true }

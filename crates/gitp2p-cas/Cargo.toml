@@ -1,0 +1,21 @@
+[package]
+name = "gitp2p-cas"
+description = "gitp2p cas subsystem"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+gitp2p-metadata = { workspace = true }
+gitp2p-trust = { workspace = true }
+gitp2p-vault = { workspace = true }
+sha2 = { workspace = true }
+
+[[test]]
+name = "cas_workflow"
+path = "tests/cas_workflow.rs"
+
+[dev-dependencies]
+gitp2p-dedup = { workspace = true }
+gitp2p-identity = { workspace = true }
+gitp2p-merkle = { workspace = true }

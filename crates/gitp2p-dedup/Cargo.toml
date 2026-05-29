@@ -1,0 +1,13 @@
+[package]
+name = "gitp2p-dedup"
+description = "gitp2p chunk deduplication"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+gitp2p-metadata = { workspace = true }
+gitp2p-trust = { workspace = true }
+gitp2p-vault = { workspace = true }
+gitp2p-cas = { workspace = true }
+sha2 = { workspace = true }

@@ -1,0 +1,106 @@
+use std::path::Path;
+
+use gitp2p_cas::{cas_root, verify_chunk};
+use gitp2p_federation::{find_domain, verify_domain};
+use gitp2p_gateway::{find_gateway, verify_gateway};
+use gitp2p_identity::verify_peer_id;
+use gitp2p_manifest::{read_manifest, verify_manifest};
+use gitp2p_metadata::{Checkpoint, Result};
+use gitp2p_peering::{find_peering, verify_peering};
+use gitp2p_routing::verify_route;
+use gitp2p_trust::{verify_checkpoint, verify_delegation, verify_session, find_delegation};
+use gitp2p_vault::App;
+
+pub struct VerificationReport {
+    pub peer_ok: bool,
+    pub checkpoint_ok: bool,
+    pub manifest_ok: bool,
+    pub lineage_ok: bool,
+    pub merkle_ok: bool,
+}
+
+pub fn verify_peer(app: &App, peer_id: &str) -> Result<()> {
+    let peer = app.find_peer(peer_id)?;
+    verify_peer_id(&peer.public_key, &peer.id)
+}
+
+pub fn verify_checkpoint_full(app: &App, checkpoint_id: &str) -> Result<()> {
+    let (_, _, checkpoint) = app.find_checkpoint(checkpoint_id)?;
+    let identity = app.ensure_identity()?;
+    verify_checkpoint(&checkpoint, &identity.public_key)
+}
+
+pub fn verify_manifest_file(path: &Path) -> Result<String> {
+    verify_manifest(path)
+}
+
+pub fn verify_lineage(app: &App, checkpoint_id: &str, expected_hash: &str) -> Result<()> {
+    let (chain, hash) = gitp2p_lineage::inspect_lineage(app, checkpoint_id)?;
+    if !expected_hash.is_empty() {
+        gitp2p_lineage::verify_lineage_hash(&chain, expected_hash)?;
+    }
+    let _ = hash;
+    Ok(())
+}
+
+pub fn verify_session_full(app: &App, session_id: &str) -> Result<()> {
+    let session = app.find_session(session_id)?;
+    let peer = app.find_peer(&session.peer_id)?;
+    verify_session(&session, &peer.public_key)
+}
+
+pub fn verify_cas_chunk(home: &Path, chunk_id: &str) -> Result<()> {
+    verify_chunk(&cas_root(home), chunk_id)
+}
+
+pub fn verify_recovery_integrity(
+    app: &App,
+    checkpoint: &Checkpoint,
+    manifest_path: Option<&Path>,
+) -> Result<VerificationReport> {
+    let identity = app.ensure_identity()?;
+    let checkpoint_ok = verify_checkpoint(checkpoint, &identity.public_key).is_ok();
+    let manifest_ok = match manifest_path {
+        Some(path) => verify_manifest(path).is_ok(),
+        None => true,
+    };
+    let (chain, _) = gitp2p_lineage::inspect_lineage(app, &checkpoint.id)?;
+    let leaves: Vec<&str> = chain.split("->").collect();
+    let merkle_ok = gitp2p_merkle::verify_merkle_root(&leaves, &gitp2p_merkle::merkle_root(&leaves)).is_ok();
+    Ok(VerificationReport {
+        peer_ok: true,
+        checkpoint_ok,
+        manifest_ok,
+        lineage_ok: !chain.is_empty(),
+        merkle_ok,
+    })
+}
+
+pub fn verify_domain_record(app: &App, domain_id: &str) -> Result<()> {
+    let domain = find_domain(app, domain_id)?;
+    let identity = app.ensure_identity()?;
+    verify_domain(&domain, &identity.public_key)
+}
+
+pub fn verify_gateway_record(app: &App, gateway_id: &str) -> Result<()> {
+    let gateway = find_gateway(app, gateway_id)?;
+    let identity = app.ensure_identity()?;
+    verify_gateway(&gateway, &identity.public_key)
+}
+
+pub fn verify_peering_record(app: &App, remote_domain: &str) -> Result<()> {
+    let peering = find_peering(app, remote_domain)?;
+    let identity = app.ensure_identity()?;
+    verify_peering(&peering, &identity.public_key)
+}
+
+pub fn verify_delegation_record(app: &App, delegation_id: &str) -> Result<()> {
+    let delegation = find_delegation(&app.home, delegation_id)?;
+    let identity = app.ensure_identity()?;
+    verify_delegation(&delegation, &identity.public_key)
+}
+
+pub fn verify_global_route(app: &App, route_id: &str) -> Result<()> {
+    verify_route(app, route_id)?;
+    Ok(())
+}

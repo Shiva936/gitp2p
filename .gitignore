@@ -1,0 +1,4 @@
+plans/
+/target/
+**/*.rs.bk
+.env

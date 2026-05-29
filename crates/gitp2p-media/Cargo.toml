@@ -1,0 +1,12 @@
+[package]
+name = "gitp2p-media"
+description = "gitp2p media subsystem"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+gitp2p-metadata = { workspace = true }
+gitp2p-trust = { workspace = true }
+gitp2p-vault = { workspace = true }
+sha2 = { workspace = true }

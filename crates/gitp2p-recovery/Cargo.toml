@@ -1,0 +1,14 @@
+[package]
+name = "gitp2p-recovery"
+description = "Repository recovery and corruption detection for gitp2p"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+gitp2p-metadata = { workspace = true }
+gitp2p-trust = { workspace = true }
+gitp2p-vault = { workspace = true }
+gitp2p-sync = { workspace = true }
+gitp2p-global-discovery = { workspace = true }
+gitp2p-routing = { workspace = true }
