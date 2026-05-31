@@ -110,14 +110,6 @@ Detailed command walkthroughs: [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md
 | [docs/architecture/DECISIONS.md](docs/architecture/DECISIONS.md) | Architectural decisions |
 | [docs/architecture/GLOSSARY.md](docs/architecture/GLOSSARY.md) | Terminology |
 
-## Project Status
-
-- **Version:** 5.0.0
-- **Crates:** 27 (Rust workspace)
-- **Transport:** Filesystem-first; optional mDNS + QUIC/TLS
-- **Federation:** v5 domains/gateways via KV simulation (wire protocol future work)
-- **Tests:** `cargo test` — unit and integration tests included
-
 ## Contributing
 
 We welcome issues and pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md).
